@@ -52,8 +52,6 @@
       position: relative;
     }
 
-  
-    
     .subtitle {
       color: var(--muted);
       margin-top: 0.4rem;
@@ -74,8 +72,8 @@
 
     .controls input[type="text"] {
       flex: 1;
-      min-width: 180px;
-      max-width: 340px;
+      min-width: 160px;
+      max-width: 300px;
       padding: 0.55rem 1rem;
       border-radius: 999px;
       border: 1.5px solid rgba(255,215,0,0.3);
@@ -237,6 +235,14 @@
 
     .artist-line span { font-weight: 600; }
 
+    /* Clicking an artist name searches for other cards by that artist */
+    .artist-click {
+      cursor: pointer;
+      text-decoration: underline dotted;
+      text-decoration-color: rgba(126,200,227,0.5);
+    }
+    .artist-click:hover { color: var(--yellow); }
+
     .hp-line {
       font-size: 0.78rem;
       color: var(--muted);
@@ -293,7 +299,7 @@
     .t-Colorless { background:#b0a0a0; color:#1a1a2e; }
     .t-default { background:rgba(255,255,255,0.15); color:#fff; }
 
-    /* Modal */
+    /* ===== Modal (carta en detalle) ===== */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -311,37 +317,38 @@
       background: var(--surface);
       border-radius: 20px;
       border: 2px solid rgba(255,215,0,0.25);
-      max-width: 560px;
+      max-width: 760px;   /* mas grande que antes */
       width: 100%;
-      max-height: 90vh;
+      max-height: 92vh;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 0;
     }
 
+    /* Imagen arriba y centrada, texto abajo */
     .modal-top {
       display: flex;
-      gap: 1.2rem;
-      padding: 1.5rem;
-      align-items: flex-start;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.6rem;
+      padding: 2rem 1.8rem 1.2rem;
     }
 
     .modal-img {
-      width: 160px;
+      width: min(320px, 78%);
       flex-shrink: 0;
-      border-radius: 10px;
+      border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.55);
+      margin-bottom: 0.4rem;
     }
 
     .modal-img img { width: 100%; display: block; }
 
-    .modal-details { flex: 1; min-width: 0; }
-
     .modal-name {
       font-family: 'Bangers', cursive;
-      font-size: 1.9rem;
+      font-size: 2.1rem;
       letter-spacing: 2px;
       color: var(--yellow);
       line-height: 1.1;
@@ -349,25 +356,96 @@
 
     .modal-set {
       color: var(--muted);
-      font-size: 0.85rem;
-      margin-top: 4px;
-    }
-
-    .modal-rows { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
-
-    .modal-row {
-      display: flex;
-      gap: 8px;
       font-size: 0.88rem;
     }
 
-    .modal-row .lbl {
-      color: var(--muted);
-      min-width: 80px;
-      flex-shrink: 0;
+    .modal-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-top: 6px;
     }
 
-    .modal-row .val { color: var(--text); font-weight: 600; }
+    .badge {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 999px;
+      padding: 4px 13px;
+      font-size: 0.8rem;
+      color: var(--text);
+    }
+
+    .badge-artist {
+      cursor: pointer;
+      border-color: rgba(255,215,0,0.35);
+      color: #7ec8e3;
+    }
+    .badge-artist:hover { background: rgba(255,215,0,0.12); color: var(--yellow); }
+
+    /* Cuerpo con la info "premio" — lo que diferencia el detalle de la vista rapida */
+    .modal-body {
+      padding: 0.2rem 1.8rem 1.6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .modal-section h4 {
+      font-family: 'Bangers', cursive;
+      letter-spacing: 1px;
+      color: var(--yellow);
+      font-size: 1.05rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .ability, .attack {
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+      padding: 0.65rem 0.9rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.86rem;
+      line-height: 1.4;
+    }
+
+    .attack-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+
+    .dmg { color: var(--accent); font-weight: 700; white-space: nowrap; }
+
+    .tag {
+      font-size: 0.68rem;
+      background: rgba(255,255,255,0.12);
+      border-radius: 999px;
+      padding: 1px 8px;
+      margin-left: 6px;
+    }
+
+    .wrr-row {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .wrr {
+      font-size: 0.8rem;
+      background: rgba(255,255,255,0.07);
+      border-radius: 999px;
+      padding: 4px 11px;
+    }
+
+    .flavor {
+      font-style: italic;
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.85rem;
+      padding: 0 0.5rem;
+    }
 
     .modal-footer {
       border-top: 1px solid rgba(255,255,255,0.08);
@@ -387,7 +465,6 @@
 
     #closeModal:hover { background: rgba(255,255,255,0.18); }
 
-
     footer {
       text-align: center;
       padding: 2rem 1rem;
@@ -405,6 +482,7 @@
 
 <div class="controls">
   <input type="text" id="searchInput" placeholder="Search a Pokémon (e.g. Charizard, Mewtwo…)" />
+  <input type="text" id="artistInput" placeholder="Filtrar por artista…" />
   <select id="typeFilter">
     <option value="">All types</option>
     <option value="Fire">Fire</option>
@@ -419,11 +497,16 @@
     <option value="Metal">Metal</option>
     <option value="Colorless"> Colorless</option>
   </select>
+  <select id="sortFilter">
+    <option value="name">Ordenar: Nombre (A-Z)</option>
+    <option value="artist">Ordenar: Artista (A-Z)</option>
+    <option value="-hp">Ordenar: HP (mayor a menor)</option>
+    <option value="hp">Ordenar: HP (menor a mayor)</option>
+    <option value="-set.releaseDate">Ordenar: Mas nuevas primero</option>
+  </select>
   <button id="searchBtn">Search</button>
   <button id="randomBtn">🎲 Random</button>
 </div>
-
-
 
 <div class="stats-bar" id="statsBar">Enter a Pokémon name or click Random to start exploring!</div>
 
@@ -435,39 +518,37 @@
   <div class="modal" id="modal">
     <div class="modal-top">
       <div class="modal-img"><img id="mImg" src="" alt="" /></div>
-      <div class="modal-details">
-        <div class="modal-name" id="mName"></div>
-        <div class="modal-set" id="mSet"></div>
-        <div class="modal-rows">
-          <div class="modal-row"><span class="lbl">Illustrator</span><span class="val" id="mArtist"></span></div>
-          <div class="modal-row"><span class="lbl">HP</span><span class="val" id="mHp"></span></div>
-          <div class="modal-row"><span class="lbl">Type</span><span class="val" id="mType"></span></div>
-          <div class="modal-row"><span class="lbl">Rarity</span><span class="val" id="mRarity"></span></div>
-          <div class="modal-row"><span class="lbl">Number</span><span class="val" id="mNum"></span></div>
-        </div>
-      </div>
+      <div class="modal-name" id="mName"></div>
+      <div class="modal-set" id="mSet"></div>
+      <div class="modal-badges" id="mBadges"></div>
     </div>
+    <div class="modal-body" id="mBody"></div>
     <div class="modal-footer">
       <button id="closeModal">Close</button>
     </div>
   </div>
 </div>
 
+<footer>
+  Data from <strong>pokemontcg.io API</strong> · School project · Pokémon and all related names are trademarks of Nintendo/Game Freak.
+</footer>
 
 <script>
- 
-  const API_KEY = "a3501852-38cc-4ed8-9c51-a1f932c1a9a3"; // <-- paste your free API key here (optional but recommended) 
+
+  const API_KEY = "a3501852-38cc-4ed8-9c51-a1f932c1a9a3"; // <-- paste your free API key here (optional but recommended)
   // (Nada de opcional claudia si no la pongo no funciona nomas)
   const BASE_URL = "https://api.pokemontcg.io/v2/cards";
 
   const grid = document.getElementById("grid");
   const statsBar = document.getElementById("statsBar");
   const searchInput = document.getElementById("searchInput");
+  const artistInput = document.getElementById("artistInput");
   const typeFilter = document.getElementById("typeFilter");
+  const sortFilter = document.getElementById("sortFilter");
   const overlay = document.getElementById("modalOverlay");
 
   // Fetch cards from the API
-  async function fetchCards(query, type) {
+  async function fetchCards(query, type, artist) {
     grid.innerHTML = `<div class="loading"><span class="pokeball-spin"><svg width="48" height="48" viewBox="0 0 595.3 594.1">
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Pokéball" x="0px" y="0px" viewBox="0 0 595.3 594.1" style="enable-background:new 0 0 595.3 594.1;" xml:space="preserve">
 <style type="text/css">
@@ -491,17 +572,22 @@
     statsBar.textContent = "Fetching from pokemontcg.io…";
 
     // Build the query string for the API
-    // The API uses "q" parameter for filtering, e.g: q=name:charizard types:Fire
+    // The API uses "q" parameter for filtering, e.g: q=name:charizard types:Fire artist:"Ken Sugimori"
     let q = "";
     if (query) q += `name:${query}*`;
     if (type)  q += (q ? " " : "") + `types:${type}`;
+    if (artist) {
+      // Si el nombre del artista tiene espacios usar comillas, si es solo una palabra usar *
+      const term = artist.includes(" ") ? `artist:"${artist}"` : `artist:${artist}*`;
+      q += (q ? " " : "") + term;
+    }
     if (!q)    q = "name:*"; // get everything if no filter
 
-    // Build the full URL with parameters
-    // pageSize controls how many cards we get back (max 250)
-    const url = `${BASE_URL}?q=${encodeURIComponent(q)}&pageSize=32&orderBy=-set.releaseDate`;
+   
+    const sort = sortFilter.value || "name";
 
-    // Set up headers — include API key if we have one
+    const url = `${BASE_URL}?q=${encodeURIComponent(q)}&pageSize=32&orderBy=${sort}`;
+
     const headers = { "Content-Type": "application/json" };
     if (API_KEY) headers["X-Api-Key"] = API_KEY;
 
@@ -548,54 +634,122 @@
         <div class="card-info">
           <div class="card-name">${card.name}</div>
           <div class="card-series">${card.set?.name || ""} · ${card.rarity || "—"}</div>
-          <div class="artist-line">🎨 <span>${artist}</span></div>
+          <div class="artist-line">🎨 <span class="artist-click" data-artist="${artist.replace(/"/g, '&quot;')}">${artist}</span></div>
           ${hp ? `<div class="hp-line">${hp}</div>` : ""}
         </div>
       `;
 
-      // Clicking a card opens the detail modal 
-      //ver como hacer para que pueda hacerle click al artista
+      // Clicking the artist name searches for other cards by that artist
+      // (stopPropagation evita que tambien se abra el modal de la carta)
+      const artistEl = div.querySelector(".artist-click");
+      artistEl.addEventListener("click", (e) => {
+        e.stopPropagation();
+        searchByArtist(artist);
+      });
+
+      // Clicking anywhere else on the card opens the detail modal
       div.addEventListener("click", () => openModal(card));
       grid.appendChild(div);
     });
   }
 
-  // Open the detail modal for a card
+  // Open the detail modal for a card — aqui mostramos lo que NO se ve en la vista rapida:
+  // habilidades, ataques, debilidad/resistencia/retirada y texto de la carta.
   function openModal(card) {
     document.getElementById("mImg").src = card.images?.large || card.images?.small || "";
     document.getElementById("mImg").alt = card.name;
     document.getElementById("mName").textContent = card.name;
     document.getElementById("mSet").textContent = `${card.set?.name || ""} · ${card.set?.series || ""}`;
-    document.getElementById("mArtist").textContent = card.artist || "Unknown";
-    document.getElementById("mHp").textContent = card.hp || "—";
-    document.getElementById("mType").textContent = card.types?.join(", ") || "—";
-    document.getElementById("mRarity").textContent = card.rarity || "—";
-    document.getElementById("mNum").textContent = `${card.number} / ${card.set?.printedTotal || "?"}`;
+
+    const artist = card.artist || "Unknown";
+
+    // Badges con los datos rapidos (el artista es clickeable, igual que en la grilla)
+    const badgesHtml = `
+      <span class="badge badge-artist" id="mArtist">🎨 ${artist}</span>
+      ${card.hp ? `<span class="badge">❤️ HP ${card.hp}</span>` : ""}
+      ${card.types ? `<span class="badge">${card.types.join(", ")}</span>` : ""}
+      <span class="badge">${card.rarity || "—"}</span>
+      <span class="badge">#${card.number}/${card.set?.printedTotal || "?"}</span>
+    `;
+    document.getElementById("mBadges").innerHTML = badgesHtml;
+    document.getElementById("mArtist").addEventListener("click", () => searchByArtist(artist));
+
+    // Cuerpo con la info detallada (el "premio" de hacer click)
+    let bodyHtml = "";
+
+    if (card.abilities && card.abilities.length) {
+      bodyHtml += `<div class="modal-section"><h4>Habilidades</h4>`;
+      card.abilities.forEach(a => {
+        bodyHtml += `<div class="ability"><strong>${a.name}</strong>${a.type ? `<span class="tag">${a.type}</span>` : ""}<p>${a.text || ""}</p></div>`;
+      });
+      bodyHtml += `</div>`;
+    }
+
+    if (card.attacks && card.attacks.length) {
+      bodyHtml += `<div class="modal-section"><h4>Ataques</h4>`;
+      card.attacks.forEach(a => {
+        bodyHtml += `<div class="attack">
+          <div class="attack-head"><strong>${a.name}</strong>${a.damage ? `<span class="dmg">${a.damage}</span>` : ""}</div>
+          ${a.text ? `<p>${a.text}</p>` : ""}
+        </div>`;
+      });
+      bodyHtml += `</div>`;
+    }
+
+    const hasWrr = (card.weaknesses && card.weaknesses.length) || (card.resistances && card.resistances.length) || (card.retreatCost && card.retreatCost.length);
+    if (hasWrr) {
+      bodyHtml += `<div class="modal-section wrr-row">`;
+      if (card.weaknesses) card.weaknesses.forEach(w => bodyHtml += `<span class="wrr">⬇️ Debilidad: ${w.type} ${w.value}</span>`);
+      if (card.resistances) card.resistances.forEach(r => bodyHtml += `<span class="wrr">🛡 Resistencia: ${r.type} ${r.value}</span>`);
+      if (card.retreatCost && card.retreatCost.length) bodyHtml += `<span class="wrr">🏃 Retirada: ${card.retreatCost.length}</span>`;
+      bodyHtml += `</div>`;
+    }
+
+    if (card.flavorText) {
+      bodyHtml += `<p class="flavor">"${card.flavorText}"</p>`;
+    }
+
+    document.getElementById("mBody").innerHTML = bodyHtml || `<p class="flavor">Esta carta no tiene texto adicional disponible.</p>`;
+
     overlay.classList.add("open");
   }
 
+  // Busca otras cartas del mismo artista (se llama al hacer click en su nombre)
+  function searchByArtist(artist) {
+    artistInput.value = artist;
+    searchInput.value = "";
+    typeFilter.value = "";
+    overlay.classList.remove("open");
+    fetchCards("", "", artist);
+  }
+
   // Random search — picks a random popular Pokémon
-  //ver como hacer que sea en verdad random y que me pueda salir un Muk idk
+  // todavia no lo arreglo xd
   function randomSearch() {
     const picks = ["Pikachu","Charizard","Mewtwo","Eevee","Gengar","Snorlax",
                    "Bulbasaur","Squirtle","Jigglypuff","Umbreon","Sylveon",
                    "Lucario","Garchomp","Rayquaza","Mew","Alakazam","Gyarados"];
     const pick = picks[Math.floor(Math.random() * picks.length)];
     searchInput.value = pick;
+    artistInput.value = "";
     typeFilter.value = "";
-    fetchCards(pick, "");
+    fetchCards(pick, "", "");
+  }
+
+  function runSearch() {
+    fetchCards(searchInput.value.trim(), typeFilter.value, artistInput.value.trim());
   }
 
   // Event listeners
-  document.getElementById("searchBtn").addEventListener("click", () => {
-    fetchCards(searchInput.value.trim(), typeFilter.value);
-  });
-
+  document.getElementById("searchBtn").addEventListener("click", runSearch);
   document.getElementById("randomBtn").addEventListener("click", randomSearch);
 
-  searchInput.addEventListener("keydown", e => {
-    if (e.key === "Enter") fetchCards(searchInput.value.trim(), typeFilter.value);
-  });
+  searchInput.addEventListener("keydown", e => { if (e.key === "Enter") runSearch(); });
+  artistInput.addEventListener("keydown", e => { if (e.key === "Enter") runSearch(); });
+
+  // Cambiar el orden o el tipo vuelve a buscar de inmediato (criterio de organizacion visible)
+  sortFilter.addEventListener("change", runSearch);
+  typeFilter.addEventListener("change", runSearch);
 
   document.getElementById("closeModal").addEventListener("click", () => {
     overlay.classList.remove("open");
@@ -605,8 +759,8 @@
     if (e.target === overlay) overlay.classList.remove("open");
   });
 
-  // Carga cartas en especifico al cargar la pagina,
-  fetchCards("");
+  // Carga cartas ordenadas por nombre al cargar la pagina
+  fetchCards("", "", "");
 </script>
 
 </body>
